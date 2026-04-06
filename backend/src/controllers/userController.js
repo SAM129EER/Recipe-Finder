@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 const tokenGenerate = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -51,7 +52,7 @@ const loginUser = async (req,res)=>{
       const user = await User.findOne({
         email
       });
-      if (user && (await user.matchPassword(password))) {
+      if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
           id: user._id,
           username: user.username,

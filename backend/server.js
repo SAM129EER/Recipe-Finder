@@ -5,7 +5,7 @@ import connectDB from "./src/config/db.js";
 const PORT = process.env.PORT || 5000;
 
 // connect DB first
-connectDB();
+await connectDB();
 
 // start server
 app.listen(PORT, () => {
