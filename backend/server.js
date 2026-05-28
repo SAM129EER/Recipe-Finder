@@ -6,15 +6,15 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
-    // connect DB first
-    await connectDB();
-
-    // start server
+    // Start Express server immediately
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
+
+    // Connect to database in background
+    connectDB();
   } catch (error) {
-    console.error(error);
+    console.error("Startup error:", error);
     process.exit(1);
   }
 };
