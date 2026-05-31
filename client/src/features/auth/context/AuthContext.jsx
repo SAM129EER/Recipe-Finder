@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { loginApi, registerApi, logoutApi, getMeApi } from '../services/api';
+import React, { useState, useEffect } from 'react';
 
-export const AuthContext = createContext();
+import { loginApi, registerApi, logoutApi, getMeApi } from '../api/authApi';
+import { AuthContext } from './AuthContext.js';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const response = await getMeApi();
         setUser(response.data);
-      } catch (error) {
+      } catch {
         setUser(null);
       } finally {
         setLoading(false);
@@ -34,19 +34,17 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Login error:', error);
       const errMsg = error.response?.data?.message || 'Login failed. Please try again.';
-      return { success: false, message: errMsg };
+      const isVerified = error.response?.data?.isVerified;
+      const email = error.response?.data?.email;
+      return { success: false, message: errMsg, isVerified, email };
     }
   };
 
   const register = async (username, email, password) => {
     try {
       const response = await registerApi(username, email, password);
-      const { id, username: registeredName, email: registeredEmail, message } = response.data;
-
-      const userData = { id, username: registeredName, email: registeredEmail };
-      setUser(userData);
-
-      return { success: true, message };
+      // Do not auto-login; the user needs to verify email first.
+      return { success: true, message: response.data.message, email: response.data.email };
     } catch (error) {
       console.error('Registration error:', error);
       const errMsg = error.response?.data?.message || 'Registration failed. Please try again.';

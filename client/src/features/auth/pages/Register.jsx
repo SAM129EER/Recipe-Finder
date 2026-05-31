@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import Button from '../components/button';
-import Card from '../components/card';
+import Button from '../../../shared/ui/Button';
+import Card from '../../../shared/ui/Card';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -39,7 +39,7 @@ const Register = () => {
     setIsSubmitting(false);
 
     if (result.success) {
-      navigate('/');
+      navigate(`/check-email?email=${encodeURIComponent(result.email)}`);
     } else {
       setError(result.message);
     }
