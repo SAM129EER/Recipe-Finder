@@ -9,7 +9,9 @@ const localhostOriginPattern = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
 const getAllowedOrigins = () => {
   const configuredOrigins = process.env.CORS_ORIGINS
-    ? process.env.CORS_ORIGINS.split(",").map((origin) => origin.trim()).filter(Boolean)
+    ? process.env.CORS_ORIGINS.split(",")
+        .map((origin) => origin.trim())
+        .filter(Boolean)
     : [];
 
   return [...new Set([...devOrigins, ...configuredOrigins])];
@@ -25,7 +27,10 @@ const createCorsOptions = () => {
         return callback(null, true);
       }
 
-      if (allowedOrigins.includes(origin) || localhostOriginPattern.test(origin)) {
+      if (
+        allowedOrigins.includes(origin) ||
+        localhostOriginPattern.test(origin)
+      ) {
         return callback(null, true);
       }
 

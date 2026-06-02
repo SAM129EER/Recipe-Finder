@@ -63,7 +63,8 @@ const login = async ({ email, password }) => {
   }
 
   const user = await User.findOne({ email });
-  const isPasswordValid = user && (await bcrypt.compare(password, user.password));
+  const isPasswordValid =
+    user && (await bcrypt.compare(password, user.password));
 
   if (!isPasswordValid) {
     throw new AppError(authMessages.invalidCredentials, 401);

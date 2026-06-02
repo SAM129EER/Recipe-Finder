@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 
 import createCorsOptions from "./config/cors.js";
 import authRoutes from "./features/auth/auth.routes.js";
+import recipeRoutes from "./features/recipes/recipe.routes.js";
 import { errorHandler, notFoundHandler } from "./shared/middleware/error.middleware.js";
 
 const app = express();
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", authRoutes);
+app.use("/api/recipes", recipeRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
