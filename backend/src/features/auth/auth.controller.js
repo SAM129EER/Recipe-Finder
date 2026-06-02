@@ -58,4 +58,13 @@ const resendVerification = asyncHandler(async (req, res) => {
   res.json(result);
 });
 
-export { forgotPassword, getMe, loginUser, logoutUser, registerUser, resendVerification, resetPassword, verifyEmail };
+export {
+  forgotPassword,
+  getMe,
+  loginUser,
+  logoutUser,
+  registerUser,
+  resendVerification,
+  resetPassword,
+  verifyEmail,
+};
