@@ -64,15 +64,19 @@ const Home = () => {
               </p>
 
               <div className="pt-6 border-t border-gray-100 mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button variant="primary" className="w-full sm:w-auto px-8 py-3">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                  Add New Recipe
-                </Button>
-                <Button variant="secondary" className="w-full sm:w-auto px-8 py-3">
-                  Browse Recipes
-                </Button>
+                <Link to="/recipes/new" className="w-full sm:w-auto">
+                  <Button variant="primary" className="w-full px-8 py-3">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Add New Recipe
+                  </Button>
+                </Link>
+                <Link to="/recipes" className="w-full sm:w-auto">
+                  <Button variant="secondary" className="w-full px-8 py-3">
+                    Browse Recipes
+                  </Button>
+                </Link>
               </div>
             </Card>
           </div>
