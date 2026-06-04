@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { resendVerificationApi } from '../api/authApi';
 import Button from '../../../shared/ui/Button';
 import Card from '../../../shared/ui/Card';
 
 const CheckEmail = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const email = searchParams.get('email') || '';
 
   const [resendMessage, setResendMessage] = useState('');
-  const [resendError, setResendError] = useState('');
+  const [resendError, setResendError] = useState(
+    location.state?.emailSent === false ? location.state.registrationMessage : '',
+  );
   const [isResending, setIsResending] = useState(false);
 
   const handleResend = async () => {

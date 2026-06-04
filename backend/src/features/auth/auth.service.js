@@ -44,16 +44,22 @@ const register = async ({ username, email, password }) => {
     emailVerificationExpires: Date.now() + EMAIL_VERIFICATION_MAX_AGE,
   });
 
+  let emailSent = true;
+
   try {
     await sendVerificationEmail(user.email, verificationToken);
   } catch (emailError) {
     console.error("Failed to send verification email:", emailError);
+    emailSent = false;
   }
 
   return {
     user: serializeUser(user),
     isVerified: false,
-    message: authMessages.registrationSuccess,
+    emailSent,
+    message: emailSent
+      ? authMessages.registrationSuccess
+      : authMessages.registrationEmailFailed,
   };
 };
 

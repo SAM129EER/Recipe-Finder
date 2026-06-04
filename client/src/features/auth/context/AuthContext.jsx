@@ -44,7 +44,12 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await registerApi(username, email, password);
       // Do not auto-login; the user needs to verify email first.
-      return { success: true, message: response.data.message, email: response.data.email };
+      return {
+        success: true,
+        message: response.data.message,
+        email: response.data.email,
+        emailSent: response.data.emailSent,
+      };
     } catch (error) {
       console.error('Registration error:', error);
       const errMsg = error.response?.data?.message || 'Registration failed. Please try again.';

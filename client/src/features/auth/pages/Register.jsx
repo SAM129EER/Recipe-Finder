@@ -39,7 +39,12 @@ const Register = () => {
     setIsSubmitting(false);
 
     if (result.success) {
-      navigate(`/check-email?email=${encodeURIComponent(result.email)}`);
+      navigate(`/check-email?email=${encodeURIComponent(result.email)}`, {
+        state: {
+          emailSent: result.emailSent,
+          registrationMessage: result.message,
+        },
+      });
     } else {
       setError(result.message);
     }
