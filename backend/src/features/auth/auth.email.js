@@ -1,12 +1,27 @@
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
+const createTransporter = () => {
+  const auth = {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
-  },
-});
+  };
+
+  if (process.env.SMTP_HOST) {
+    return nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT || 587),
+      secure: process.env.SMTP_SECURE === "true",
+      auth,
+    });
+  }
+
+  return nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICE || "gmail",
+    auth,
+  });
+};
+
+const transporter = createTransporter();
 
 const createEmailShell = ({ heading, body, buttonText, buttonUrl, footer }) => `
   <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0;">
@@ -29,21 +44,24 @@ const createEmailShell = ({ heading, body, buttonText, buttonUrl, footer }) => `
   </div>
 `;
 
-const sendMail = async ({ to, subject, html }) => {
-  await transporter.sendMail({
-    from: `"RecipeFinder" <${process.env.EMAIL_USER}>`,
+const sendMail = async ({ to, subject, text, html }) => {
+  return transporter.sendMail({
+    from: process.env.EMAIL_FROM || `"RecipeFinder" <${process.env.EMAIL_USER}>`,
     to,
     subject,
+    text,
     html,
   });
 };
 
 const sendVerificationEmail = async (to, token) => {
-  const verificationUrl = `${process.env.CLIENT_URL}/verify-email?token=${token}`;
+  const verificationUrl = new URL("/verify-email", process.env.CLIENT_URL);
+  verificationUrl.searchParams.set("token", token);
 
-  await sendMail({
+  return sendMail({
     to,
     subject: "Verify Your Email - RecipeFinder",
+    text: `Verify your RecipeFinder account using this link: ${verificationUrl}`,
     html: createEmailShell({
       heading: "Verify Your Email",
       body: "Thanks for signing up! Please click the button below to verify your email address and activate your account.",
@@ -55,11 +73,13 @@ const sendVerificationEmail = async (to, token) => {
 };
 
 const sendPasswordResetEmail = async (to, token) => {
-  const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
+  const resetUrl = new URL("/reset-password", process.env.CLIENT_URL);
+  resetUrl.searchParams.set("token", token);
 
-  await sendMail({
+  return sendMail({
     to,
     subject: "Reset Your Password - RecipeFinder",
+    text: `Reset your RecipeFinder password using this link: ${resetUrl}`,
     html: createEmailShell({
       heading: "Reset Your Password",
       body: "We received a request to reset your password. Click the button below to choose a new one.",

@@ -10,6 +10,7 @@ const registerUser = asyncHandler(async (req, res) => {
   res.status(201).json({
     ...result.user,
     isVerified: result.isVerified,
+    emailSent: result.emailSent,
     message: result.message,
   });
 });

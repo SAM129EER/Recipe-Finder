@@ -12,6 +12,7 @@ const authMessages = {
   passwordResetEmailFailed: "Failed to send reset email. Please try again later.",
   passwordResetSent: "If an account with that email exists, a password reset link has been sent.",
   passwordResetSuccess: "Password reset successfully! You can now log in with your new password.",
+  registrationEmailFailed: "Your account was created, but the verification email could not be sent. Please resend it.",
   registrationSuccess: "Registration successful! Please check your email to verify your account.",
   userExists: "User already exists",
   verificationEmailFailed: "Failed to send verification email. Please try again later.",
