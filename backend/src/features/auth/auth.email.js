@@ -46,7 +46,8 @@ const createEmailShell = ({ heading, body, buttonText, buttonUrl, footer }) => `
 
 const sendMail = async ({ to, subject, text, html }) => {
   return transporter.sendMail({
-    from: process.env.EMAIL_FROM || `"RecipeFinder" <${process.env.EMAIL_USER}>`,
+    from:
+      process.env.EMAIL_FROM || `"RecipeFinder" <${process.env.EMAIL_USER}>`,
     to,
     subject,
     text,
@@ -67,7 +68,8 @@ const sendVerificationEmail = async (to, token) => {
       body: "Thanks for signing up! Please click the button below to verify your email address and activate your account.",
       buttonText: "Verify Email",
       buttonUrl: verificationUrl,
-      footer: "This link will expire in 24 hours. If you did not create an account, you can safely ignore this email.",
+      footer:
+        "This link will expire in 24 hours. If you did not create an account, you can safely ignore this email.",
     }),
   });
 };
@@ -85,7 +87,8 @@ const sendPasswordResetEmail = async (to, token) => {
       body: "We received a request to reset your password. Click the button below to choose a new one.",
       buttonText: "Reset Password",
       buttonUrl: resetUrl,
-      footer: "This link will expire in 1 hour. If you did not request this, you can safely ignore this email. Your password will not change.",
+      footer:
+        "This link will expire in 1 hour. If you did not request this, you can safely ignore this email. Your password will not change.",
     }),
   });
 };

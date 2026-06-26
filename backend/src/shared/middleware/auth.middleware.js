@@ -11,13 +11,13 @@ export const protect = async (req, res, next) => {
 
   try {
     const decoded = verifyJwt(token);
-    console.log(decoded)
+    // console.log(decoded)
     req.user = await User.findById(decoded.id).select("-password");
 
     if (!req.user) {
       return next(new AppError("Not authorized, user not found", 401));
     }
-     console.log(req.user)
+    //  console.log(req.user)
 
     return next();
   } catch (error) {
