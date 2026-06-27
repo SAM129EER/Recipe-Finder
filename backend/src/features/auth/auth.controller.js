@@ -36,7 +36,8 @@ const getMe = asyncHandler(async (req, res) => {
 });
 
 const verifyEmail = asyncHandler(async (req, res) => {
-  const result = await authService.verifyEmail(req.params.token);
+  const token = req.params.token;
+  const result = await authService.verifyEmail(token);
   res.json(result);
 });
 
